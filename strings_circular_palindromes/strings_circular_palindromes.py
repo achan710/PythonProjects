@@ -8,6 +8,11 @@ steps:
 2. get k-rotations
 3. find palidrome (need to handle odd and even length strings)
 
+Walk each character
+check for even length palidrome (>= 4 chars)
+check for odd length palidrome (>= 3 chars)
+print ONLY the max len palidrome for each rotation
+
 even length palindrome
 set start to current index
 set end to index + 1
@@ -20,19 +25,13 @@ decrement start, increment end
 odd length palidrome
 set start to index - 1
 set end to index + 1
+strore current index in buffer
 if start and end is within string length
 test if start == end
 continue if equal
 decrement start, increment end
 
-shortcut
-return s if len(s) == 1
 
-walk each character. 
-test for palindrome on following:
-1. at least 1 character before and after current char
-2. repeat for +1 char assuming both characters match
-3. print the length of most recent palidrome
 
 '''
 
@@ -41,12 +40,12 @@ def rotate(s, rotations):
     	s  string
     	rotations  number of rotations 
     '''
-    str = [x for x in s]
+    rbuf = [x for x in s]
     for k in range(rotations):
-    	temp = str.pop(0)
-    	str.append(temp)
+    	temp = rbuf.pop(0)
+    	rbuf.append(temp)
     
-    rotated = ''.join(str)
+    rotated = ''.join(rbuf)
     return rotated
 
 def test_pal(s, buf, start, end):
@@ -127,21 +126,24 @@ if __name__ == '__main__':
 	DEBUG = True
 
 	if DEBUG:
-		num_chars = 7
-		s = 'cacbbba'
-		#num_chars = 13
-		#s = 'aaaaabbbbaaaa'
+		#num_chars = 7
+		#s = 'cacbbba'
+		num_chars = 13
+		s = 'aaaaabbbbaaaa'
 
 		print num_chars
 		print s
+		print '---------------'
 	else:
 		num_chars = input()
 		s = raw_input()
 	
 	
-	
+	rotated = s
 	for n in range(num_chars):
-		rotated = rotate(s, n)
-		#print rotated
+
 		max_len = find_palindrome(rotated)
 		print max_len
+		
+		rotated = rotate(rotated, 1)
+		print rotated
