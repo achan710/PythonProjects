@@ -36,7 +36,7 @@ decrement start, increment end
 '''
 
 def rotate(s, rotations):
-    ''' returns a k-length rotated string (shift 1st character to end of string)
+    ''' returns a k-length rotated list of chars (shift 1st character to end of string)
     	s  string
     	rotations  number of rotations 
     '''
@@ -45,8 +45,8 @@ def rotate(s, rotations):
     	temp = rbuf.pop(0)
     	rbuf.append(temp)
     
-    rotated = ''.join(rbuf)
-    return rotated
+    #rotated = ''.join(rbuf)
+    return rbuf
 
 def test_pal(s, buf, start, end):
 	''' generic routine to find palindrome
@@ -100,21 +100,26 @@ def find_palindrome(s):
 	'''
 	
 	max_len = 0
-	
 	length = len(s)
+	
+	if length < 3:
+		return 0
+
 	for idx in range(length):
+		# test for even palindromes
 		buf = test_even_pal(s, idx)
 		size = len(buf)
-		if size > 3:
+		if size >= 4:
 			# even palidromes must be at least 4 or more chars
 			#print ''.join(buf)
 			#print len(buf)
 			if size > max_len:
 				max_len = size
-
+		
+		# test for odd palindromes
 		buf = test_odd_pal(s, idx)
 		size = len(buf)
-		if size > 2:
+		if size >= 3:
 			# odd palidromes must be at least 3 or more chars
 			#print ''.join(buf)
 			if size > max_len:
@@ -143,7 +148,8 @@ if __name__ == '__main__':
 	for n in range(num_chars):
 
 		max_len = find_palindrome(rotated)
-		print max_len
+		if max_len > 0:
+			print max_len
 		
 		rotated = rotate(rotated, 1)
-		print rotated
+		#print rotated
