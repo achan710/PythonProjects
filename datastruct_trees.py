@@ -40,7 +40,7 @@ class BinarySearchTree():
 
 	def add(self, key):
 		# pitfall: had to add a case to handle when root is None
-		
+
 		if self.root == None:
 			self.root = Node(key)
 		else:
@@ -50,25 +50,38 @@ class BinarySearchTree():
 		self.__traverse(self.root)
 
 	def __insert(self, node, key):
-	
-		print key
+
+		print 'insert {}'.format(str(key))
 		#if node is not None:
 			#node.display()
+		# 
+# 		if node == None:
+# 			# found position to insert node
+# 			node = Node(key)
+# 			#print node.key
+# 			return node
+# 		else:
+
+		# pitfall: originally was checking left.key. But left does not exist yet
+
+		# search left if key is less than, or right if key is greater than
+		print key
+		print node.getkey()
 		
-		if node == None:
-			# found position to insert node
-			node = Node(key)
-			#print node.key
-			
-		else:
-			# pitfall: originally was checking left.key. But left does not exist yet
-			
-			# search left if key is less than, or right if key is greater than
-			if key < node.getkey():
+		if key < node.getkey():
+			if node.getleft() == None:
+				node.left = Node(key)
+			else:
 				self.__insert(node.getleft(), key)
+			
+			print 'left'
+		else:
+			if node.getright() == None:
+				node.right = Node(key)
 			else:
 				self.__insert(node.getright(), key)
-		
+			print 'right'
+
 	def __traverse(self, node):
 		if node == None:
 			return
@@ -78,10 +91,9 @@ class BinarySearchTree():
 		self.__traverse(node.getright())
 	
 	def debug(self):
-		print '\n'
 		print self.root.key
-		print self.root.left
-		print self.root.right
+		print self.root.left.key
+		print self.root.right.key
 
 def test_node():
 
@@ -100,7 +112,7 @@ def test_bst():
 	T.add(2)
 	T.walktree()
 	
-	T.debug()
+	#T.debug()
 
 
 if __name__ == '__main__':
